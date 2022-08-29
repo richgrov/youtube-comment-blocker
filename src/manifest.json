@@ -1,0 +1,14 @@
+{
+    "name": "YouTube Comment Blocker",
+    "description": "Block specific commenters from showing up on YouTube.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["storage", "unlimitedStorage"],
+    "content_scripts": [
+        {
+            "matches": ["https://www.youtube.com/*"],
+            "css": ["injected-style.css"],
+            "js": ["injected-script.js"]
+        }
+    ]
+}
