@@ -33,9 +33,18 @@ body {
     width: 100%;
 }
 
-#filter-list span {
+#filter-list .entry {
     display: block;
-    cursor: pointer;
     padding: 5px 10px;
     border-top: 1px solid lightgray;
+}
+
+#filter-list .entry span {
+    cursor: pointer;
+}
+
+#filter-list .entry .close-btn {
+    cursor: pointer;
+    display: inline;
+    float: right;
 }

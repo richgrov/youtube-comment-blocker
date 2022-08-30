@@ -9,16 +9,31 @@ function getActiveTabId() {
 }
 
 function createFilterEntry(channelName, channelUrl) {
-    const el = document.createElement("span");
-    el.innerHTML = channelName;
+    const el = document.createElement("div");
+    el.classList.add("entry");
 
-    el.onclick = () => {
+    const nameEl = document.createElement("span");
+    nameEl.textContent = channelName;
+
+    nameEl.onclick = () => {
         chrome.tabs.create({
             active: true,
             url: "https://youtube.com" + channelUrl
         });
     };
 
+    const deleteBtn = document.createElement("div");
+    deleteBtn.classList.add("close-btn");
+    deleteBtn.textContent = "\u00d7";
+
+    deleteBtn.onclick = () => {
+        chrome.storage.local.remove(BLOCKED_KEY + channelUrl, response => {
+            el.remove();
+        });
+    };
+
+    el.appendChild(nameEl);
+    el.appendChild(deleteBtn);
     return el;
 }
 
