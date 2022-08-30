@@ -10,5 +10,8 @@
             "css": ["injected-style.css"],
             "js": ["injected-script.js"]
         }
-    ]
+    ],
+    "action": {
+        "default_popup": "popup/index.html"
+    }
 }

@@ -64,6 +64,7 @@ function getCommentInfo(node) {
     const channelUrl = authorElement.getAttribute('href');
 
     return {
+        channelUrl,
         storageKey: 'blocked-' + channelUrl,
         channelName: authorElement.firstElementChild.innerText.trim(),
     };
@@ -71,6 +72,9 @@ function getCommentInfo(node) {
 
 /** @type {HTMLElement} */
 let selectedCommentNode = null;
+
+/** @type {Record<string, string>} */
+const blockList = {};
 
 /**
  * Called when a new Node is added to the comments section.
@@ -86,10 +90,11 @@ function onCommentNodeAdded(node) {
         });
     } else if (isCommentNode(node)) {
         // This is a comment. Check if the user is blocked.
-        const { storageKey } = getCommentInfo(node);
+        const { channelUrl, storageKey, channelName } = getCommentInfo(node);
 
         chrome.storage.local.get(storageKey, result => {
             if (Object.keys(result).length !== 0) {
+                blockList[channelUrl] = channelName;
                 node.remove();
             }
         });
@@ -120,8 +125,10 @@ waitForElement('ytd-menu-service-item-renderer').then(root => {
             // the scroll bar from locking up.
             document.body.click();
 
-            const { storageKey, channelName } = getCommentInfo(selectedCommentNode);
+            const { channelUrl, storageKey, channelName } = getCommentInfo(selectedCommentNode);
             const data = {};
+
+            blockList[channelUrl] = channelName;
             data[storageKey] = { name: channelName };
 
             chrome.storage.local.set(data);
@@ -129,4 +136,10 @@ waitForElement('ytd-menu-service-item-renderer').then(root => {
     };
 
     root.parentElement.appendChild(button);
+});
+
+chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
+    if (message.id === "query-blocked") {
+        sendResponse({ data: blockList });
+    }
 });
