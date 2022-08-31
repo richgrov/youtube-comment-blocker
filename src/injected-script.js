@@ -66,7 +66,7 @@ function isCommentNode(node) {
  * @param {HTMLElement} node 
  */
 function removeCommentNode(node) {
-    if (node.parentElement.tagName === "YTD-COMMENT-THREAD-RENDERER") {
+    if (node.parentElement.tagName === 'YTD-COMMENT-THREAD-RENDERER') {
         node.parentElement.remove();
     } else {
         node.remove();
@@ -153,7 +153,7 @@ waitForElement('ytd-menu-service-item-renderer').then(root => {
 });
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
-    if (message.id === "query-blocked") {
+    if (message.id === 'query-blocked') {
         sendResponse({ data: blockList });
     }
 });
