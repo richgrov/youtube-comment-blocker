@@ -110,9 +110,9 @@ waitForElement('ytd-comments#comments').then(root => {
 
 // Wait for the drop-down menu to be created. Only need to listen once.
 waitForElement('ytd-menu-service-item-renderer').then(root => {
-    // Create the 'Block User' button
+    // Create the 'Block' button
     const button = document.createElement('p');
-    button.innerText = '\u00d7 Block User';
+    button.innerHTML = '<span class="ytcb-icon">&#10006;</span> Block';
     button.classList.add('ytcb-button');
 
     button.onclick = () => {

@@ -5,5 +5,10 @@
 }
 
 .ytcb-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--yt-spec-10-percent-layer);
+}
+
+.ytcb-icon {
+    padding-left: 6px;
+    padding-right: 19px;
 }
