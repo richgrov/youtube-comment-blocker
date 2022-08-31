@@ -3,4 +3,5 @@
 Finally, no more spam!
 
 **Features**:
-- Block a specific user
+- Block/unblock users
+- View which users are blocked globally, or on the current page
