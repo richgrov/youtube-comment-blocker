@@ -3,7 +3,7 @@
     "description": "Block specific commenters from showing up on YouTube.",
     "version": "1.0",
     "manifest_version": 3,
-    "permissions": ["storage", "unlimitedStorage"],
+    "permissions": ["storage", "unlimitedStorage", "tabs"],
     "content_scripts": [
         {
             "matches": ["https://www.youtube.com/*"],
@@ -13,5 +13,8 @@
     ],
     "action": {
         "default_popup": "popup/index.html"
+    },
+    "background": {
+        "service_worker": "background.js"
     }
 }

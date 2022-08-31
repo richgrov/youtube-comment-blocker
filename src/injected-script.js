@@ -88,7 +88,7 @@ function getCommentInfo(node) {
 let selectedCommentNode = null;
 
 /** @type {Record<string, string>} */
-const blockList = {};
+let blockList = {};
 
 /**
  * Called when a new Node is added to the comments section.
@@ -153,7 +153,15 @@ waitForElement('ytd-menu-service-item-renderer').then(root => {
 });
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
-    if (message.id === 'query-blocked') {
-        sendResponse({ data: blockList });
+    switch (message.id) {
+        case 'query-blocked':
+            sendResponse({ data: blockList });
+            break;
+
+        case 'reset-block-list':
+            // The background script will send this message when the URL
+            // changes. Necessary because YouTube is a SPA.
+            blockList = {};
+            break;
     }
 });
