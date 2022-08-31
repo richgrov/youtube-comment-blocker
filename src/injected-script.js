@@ -59,6 +59,20 @@ function isCommentNode(node) {
     return node instanceof HTMLElement && node.tagName === 'YTD-COMMENT-RENDERER';
 }
 
+/**
+ * Removes an entire comment node. If this is a top-level comment, it will also
+ * delete the replies menu.
+ *
+ * @param {HTMLElement} node 
+ */
+function removeCommentNode(node) {
+    if (node.parentElement.tagName === "YTD-COMMENT-THREAD-RENDERER") {
+        node.parentElement.remove();
+    } else {
+        node.remove();
+    }
+}
+
 function getCommentInfo(node) {
     const authorElement = node.querySelector('#author-text');
     const channelUrl = authorElement.getAttribute('href');
@@ -95,7 +109,7 @@ function onCommentNodeAdded(node) {
         chrome.storage.local.get(storageKey, result => {
             if (Object.keys(result).length !== 0) {
                 blockList[channelUrl] = channelName;
-                node.remove();
+                removeCommentNode(node);
             }
         });
     }
@@ -117,7 +131,7 @@ waitForElement('ytd-menu-service-item-renderer').then(root => {
 
     button.onclick = () => {
         if (selectedCommentNode) {
-            selectedCommentNode.remove();
+            removeCommentNode(selectedCommentNode);
 
             root.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
 
